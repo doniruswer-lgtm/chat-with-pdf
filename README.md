@@ -24,11 +24,6 @@ A powerful local RAG (Retrieval Augmented Generation) application that lets you 
 ![Streamlit UI](st_app_ui.png)
 *Classic Streamlit interface with PDF viewer and chat functionality*
 
-## 📺 Video Tutorial
-<a href="https://youtu.be/ztBJqzBU5kc">
-  <img src="https://img.youtube.com/vi/ztBJqzBU5kc/hqdefault.jpg" alt="Watch the video" width="100%">
-</a>
-
 ## 🏗️ Project Structure
 ```
 ollama_pdf_rag/
