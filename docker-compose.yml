@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      # Allows reaching host Ollama instance
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    volumes:
+      # Persist Chroma DB and PDF uploads
+      - ./data:/app/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: ./web-ui
+      dockerfile: Dockerfile
+    ports:
+      - "5000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:8001
+      - API_URL=http://backend:8001
+      - AUTH_TRUST_HOST=true
+      - NEXTAUTH_URL=http://localhost:5000
+      - AUTH_URL=http://localhost:5000/api/auth
+      - AUTH_SECRET=secret_key_change_me_later
+      - NEXTAUTH_SECRET=secret_key_change_me_later
+    volumes:
+      # Persist Next.js chat database
+      - ./web-ui/data:/app/data
+      # Persist and share migrations
+      - ./web-ui/lib/db/migrations:/app/lib/db/migrations
+    depends_on:
+      - backend
